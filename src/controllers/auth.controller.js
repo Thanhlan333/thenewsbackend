@@ -52,3 +52,17 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };  
+
+exports.me = async (req, res) => {
+  try {
+    // req.user lấy từ middleware
+    const user = req.user;
+
+    res.json({
+      id: user.id,
+      email: user.email,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
