@@ -48,6 +48,7 @@ exports.login = async (req, res) => {
 
     res.json({ token });
   } catch (err) {
+    console.log("ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
-};
+};  
