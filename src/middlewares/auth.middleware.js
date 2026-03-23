@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+exports.verifyToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
 
   if (!authHeader) {
-    return res.status(401).json({ message: "No token" });
+    return res.status(401).json({ message: "Không có token" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -12,9 +12,10 @@ module.exports = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = decoded;
+    req.user = decoded; // { userId, role }
+
     next();
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid token" });
+  } catch (error) {
+    return res.status(403).json({ message: "Token không hợp lệ" });
   }
 };

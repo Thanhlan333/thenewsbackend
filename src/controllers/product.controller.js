@@ -12,10 +12,13 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await productService.getAllProducts();
+    const page = parseInt(req.query.page) || 1;
+
+    const products = await productService.getAllProducts(page);
+
     res.json(products);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 

@@ -1,3 +1,4 @@
+const pool = require("../db");
 const db = require("../db");
 
 // Tạo product
@@ -11,11 +12,13 @@ exports.createProduct = async (name, description) => {
   return result.rows[0];
 };
 
-// Lấy tất cả product
-exports.getAllProducts = async () => {
-  const result = await db.query(
-    `SELECT * FROM products ORDER BY created_at DESC`
+// Lấy 20 product
+exports.getAllProducts = async (limit, offset) => {
+  const result = await pool.query(
+    "SELECT * FROM products LIMIT $1 OFFSET $2",
+    [limit, offset]
   );
+
   return result.rows;
 };
 
